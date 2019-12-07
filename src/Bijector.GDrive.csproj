@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="$(Configuration)=='Release'">
+      <ItemGroup>
+        <PackageReference Include="Bijector.Infrastructure" Version="[1.0.4-dev,)" />
+        <PackageReference Include="Bijector.Contracts" Version="[1.0.7-dev,)" />
+      </ItemGroup>
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <ProjectReference Include="../../Bijector.Infrastructure/src/Bijector.Infrastructure.csproj" />
+        <ProjectReference Include="../../Bijector.Contracts/src/Bijector.Contracts.csproj" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+
+</Project>
