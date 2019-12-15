@@ -18,6 +18,7 @@ using Bijector.GDrive.Messages.Commands;
 using Bijector.GDrive.Messages.Queries;
 using Bijector.GDrive.Handlers.Commands;
 using Bijector.GDrive.Handlers.Queries;
+using Bijector.GDrive.DTOs;
 using System.Collections.Generic;
 using Google.Apis.Drive.v3.Data;
 using Microsoft.OpenApi.Models;
@@ -49,9 +50,9 @@ namespace GDrive
             
             services.AddTransient<ICommandHandler<MoveDriveEntity>, MoveDriveEntityHandler>();
             services.AddTransient<ICommandHandler<RenameDriveEntity>, RenameDriveEntityHandler>();
-            services.AddTransient<IQueryHandler<GetDirectories, IEnumerable<File>>, GetDirectoriesHandler>();
-            services.AddTransient<IQueryHandler<GetFiles, IEnumerable<File>>, GetFilesHandler>();
-            services.AddTransient<IQueryHandler<GetDriveEntity, File>, GetDriveEntityHandler>();
+            services.AddTransient<IQueryHandler<GetDirectories, DriveEntityList>, GetDirectoriesHandler>();
+            services.AddTransient<IQueryHandler<GetFiles, DriveEntityList>, GetFilesHandler>();
+            services.AddTransient<IQueryHandler<GetDriveEntity, DriveEntity>, GetDriveEntityHandler>();
 
             services.Configure<GoogleConfigs>(Configuration.GetSection("GoogleOptions"));            
 

@@ -1,11 +1,9 @@
-using System.Collections.Generic;
-using Google.Apis.Drive.v3.Data;
 using Bijector.Infrastructure.Types.Messages;
-using System;
+using Bijector.GDrive.DTOs;
 
 namespace Bijector.GDrive.Messages.Queries
 {
-    public class GetDirectories : BaseDriveEntityMessage, IQuery<IEnumerable<File>>
+    public class GetDirectories : BaseDriveEntityMessage, IQuery<DriveEntityList>
     {
         public GetDirectories(){}
 
