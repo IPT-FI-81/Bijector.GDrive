@@ -1,13 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Bijector.GDrive.Models;
 using Bijector.GDrive.Services;
-using Bijector.Infrastructure.Repositories;
-using Google.Apis.Drive.v3;
-using Google.Apis.Drive.v3.Data;
-using Google.Apis.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,7 +13,7 @@ namespace Bijector.GDrive.Controllers
 
         public GoogleDriveAuthController(IGoogleAuthService authService)
         {
-            this.authService = authService;            
+            this.authService = authService;
         }
         
         [Authorize]
