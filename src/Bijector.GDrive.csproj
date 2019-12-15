@@ -12,7 +12,7 @@
   <Choose>
     <When Condition="$(Configuration)=='Release'">
       <ItemGroup>
-        <PackageReference Include="Bijector.Infrastructure" Version="[1.0.8-dev,)" />        
+        <PackageReference Include="Bijector.Infrastructure" Version="[1.0.10-dev,)" />        
       </ItemGroup>
     </When>
     <Otherwise>

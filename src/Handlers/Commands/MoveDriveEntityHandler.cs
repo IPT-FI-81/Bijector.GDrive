@@ -2,7 +2,9 @@ using System.Threading.Tasks;
 using Bijector.GDrive.Messages.Commands;
 using Bijector.GDrive.Services;
 using Bijector.Infrastructure.Handlers;
+using Bijector.Infrastructure.Queues;
 using Bijector.Infrastructure.Types;
+using Bijector.GDrive.Messages.Events;
 
 namespace Bijector.GDrive.Handlers.Commands
 {
@@ -12,10 +14,13 @@ namespace Bijector.GDrive.Handlers.Commands
 
         private readonly IServiceIdValidatorService validatorService;
 
-        public MoveDriveEntityHandler(IGoogleAuthService authService, IServiceIdValidatorService validatorService)
+        private readonly IPublisher publisher;
+
+        public MoveDriveEntityHandler(IGoogleAuthService authService, IServiceIdValidatorService validatorService, IPublisher publisher)
         {
             this.authService = authService;
             this.validatorService = validatorService;
+            this.publisher = publisher;
         }
 
         public async Task Handle(MoveDriveEntity command, IContext context)
@@ -24,6 +29,27 @@ namespace Bijector.GDrive.Handlers.Commands
             {
                 var gDriveService = new GoogleDriveService(command.ServiceId, authService);
                 await gDriveService.Move(command.EntityId, command.DestinationId, command.SourceId);
+                                
+                var succEvent = new DriveEntityMoved
+                { 
+                    EnitityId = command.EntityId,
+                    SourceId = command.SourceId, 
+                    DestionationId = command.DestinationId 
+                };
+                var succContext = new BaseContext(context.Id, context.UserId, "Bijector GDrive", "Bijector Workflows");
+                await publisher.Publish(succEvent, succContext);
+            }
+            else
+            {
+                var badEvent = new MoveDriveEntityRejected
+                { 
+                    EnitityId = command.EntityId,
+                    SourceId = command.SourceId, 
+                    DestionationId = command.DestinationId,
+                    Reason = "Service does not linked with user"
+                };
+                var badContext = new BaseContext(context.Id, context.UserId, "Bijector GDrive", "Bijector Workflows");
+                await publisher.Publish(badEvent, badContext);
             }
         }
     }

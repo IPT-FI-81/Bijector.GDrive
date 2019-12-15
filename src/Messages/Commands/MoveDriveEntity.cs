@@ -1,4 +1,3 @@
-using System;
 using Bijector.Infrastructure.Types.Messages;
 
 namespace Bijector.GDrive.Messages.Commands
