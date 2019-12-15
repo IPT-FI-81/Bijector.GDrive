@@ -22,6 +22,7 @@ using Bijector.GDrive.DTOs;
 using System.Collections.Generic;
 using Google.Apis.Drive.v3.Data;
 using Microsoft.OpenApi.Models;
+using System.Net.Http;
 
 namespace GDrive
 {
@@ -37,6 +38,7 @@ namespace GDrive
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddConsul(Configuration);
+            services.AddConsulDiscover();
 
             services.AddRabbitMQ(Configuration);
 
@@ -56,6 +58,9 @@ namespace GDrive
 
             services.Configure<GoogleConfigs>(Configuration.GetSection("GoogleOptions"));            
 
+            var discover = services.BuildServiceProvider().GetService<IServiceDiscover>();
+            var accountsUrl = discover.ResolveServicePath("Bijector Accounts");
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -63,8 +68,9 @@ namespace GDrive
             }).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false;              
-                options.Authority = "http://localhost:5000";
+                options.Authority = $"https://{accountsUrl}";
                 options.Audience = "api.v1";
+                options.BackchannelHttpHandler = new HttpClientHandler{ServerCertificateCustomValidationCallback = (f1, s, t, f2) => true};
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     NameClaimType = ClaimTypes.NameIdentifier
