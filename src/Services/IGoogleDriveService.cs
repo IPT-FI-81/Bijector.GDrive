@@ -9,15 +9,15 @@ namespace Bijector.GDrive.Services
     {
         Task<File> Get(string id);
 
-        Task<IEnumerable<File>> GetFileAsync();
+        Task<IEnumerable<File>> GetFilesAsync();
 
         Task<IEnumerable<File>> GetDirectoryAsync();
 
-        Task<IEnumerable<File>> GetFileAsync(Func<File, bool> predicate);
+        Task<IEnumerable<File>> GetFilesAsync(Func<File, bool> predicate);
 
         Task<IEnumerable<File>> GetDirectoryAsync(Func<File, bool> predicate);
 
-        Task<IEnumerable<File>> GetFileAsync(string search);
+        Task<IEnumerable<File>> GetFilesAsync(string search);
 
         Task<IEnumerable<File>> GetDirectoryAsync(string search);
 

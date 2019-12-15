@@ -3,7 +3,7 @@ using Bijector.Infrastructure.Types.Messages;
 
 namespace Bijector.GDrive.Messages.Commands
 {
-    public class RenameDriveEntity : BaseDriveEntityCommand
+    public class RenameDriveEntity : BaseDriveEntityMessage, ICommand
     {
         public RenameDriveEntity(Guid serviceId, string id, string newName) : base(serviceId)
         {

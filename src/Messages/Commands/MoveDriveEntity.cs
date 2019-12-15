@@ -3,7 +3,7 @@ using Bijector.Infrastructure.Types.Messages;
 
 namespace Bijector.GDrive.Messages.Commands
 {
-    public class MoveDriveEntity : BaseDriveEntityCommand
+    public class MoveDriveEntity : BaseDriveEntityMessage, ICommand
     {
         public MoveDriveEntity(Guid serviceId, string entityId, string destinationId, string sourceId) : base(serviceId)
         {            

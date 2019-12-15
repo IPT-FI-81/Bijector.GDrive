@@ -75,20 +75,20 @@ namespace Bijector.GDrive.Services
             return await ExecuteListAsync(request);
         }
 
-        public async Task<IEnumerable<File>> GetFileAsync()
+        public async Task<IEnumerable<File>> GetFilesAsync()
         {            
             var request = driveService.Files.List();            
             request.Q = "trashed = false and mimeType != application/vnd.google-apps.folder";
             return await ExecuteListAsync(request);
         }        
 
-        public async Task<IEnumerable<File>> GetFileAsync(Func<File, bool> predicate)
+        public async Task<IEnumerable<File>> GetFilesAsync(Func<File, bool> predicate)
         {
             var allFiles = await GetFileAsync();
             return allFiles.Where(predicate);
         }
 
-        public async Task<IEnumerable<File>> GetFileAsync(string search)
+        public async Task<IEnumerable<File>> GetFilesAsync(string search)
         {
             var request = driveService.Files.List();
             request.Corpora = "user";
