@@ -20,7 +20,7 @@ namespace Bijector.GDrive.Handlers.Queries
 
         public async Task<File> Handle(GetDriveEntity query, IContext context)
         {
-            if(await validatorService.IsValid(context.Id, query.ServiceId))
+            if(await validatorService.IsValid(context.UserId, query.ServiceId))
             {
                 var gDriveService = new GoogleDriveService(query.ServiceId, authService);
                 return await gDriveService.Get(query.Id);

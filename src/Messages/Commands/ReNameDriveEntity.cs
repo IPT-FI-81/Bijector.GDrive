@@ -5,13 +5,15 @@ namespace Bijector.GDrive.Messages.Commands
 {
     public class RenameDriveEntity : BaseDriveEntityMessage, ICommand
     {
-        public RenameDriveEntity(Guid serviceId, string id, string newName) : base(serviceId)
+        public RenameDriveEntity(){}
+
+        public RenameDriveEntity(int serviceId, string id, string newName) : base(serviceId)
         {
             Id = id;
             NewName = newName;
         }
 
-        public string Id { get; }
-        public string NewName { get; }
+        public string Id { get; set; }
+        public string NewName { get; set; }
     }
 }

@@ -4,11 +4,13 @@ namespace Bijector.GDrive.Messages
 {
     public abstract class BaseDriveEntityMessage
     {
-        public BaseDriveEntityMessage(Guid serviceId)
+        public BaseDriveEntityMessage(){}
+
+        public BaseDriveEntityMessage(int serviceId)
         {
             ServiceId = serviceId;
         }
 
-        public Guid ServiceId { get; }
+        public int ServiceId { get; set; }
     }
 }

@@ -20,6 +20,7 @@ using Bijector.GDrive.Handlers.Commands;
 using Bijector.GDrive.Handlers.Queries;
 using System.Collections.Generic;
 using Google.Apis.Drive.v3.Data;
+using Microsoft.OpenApi.Models;
 
 namespace GDrive
 {
@@ -41,7 +42,7 @@ namespace GDrive
             services.AddMongoDb(Configuration);
             services.AddMongoDbRepository<Token>("GDrive tokens");
 
-            services.AddScoped<IServiceIdValidatorService, ServiceIdValidatorService>();
+            services.AddTransient<IServiceIdValidatorService, ServiceIdValidatorService>();
             services.AddTransient<IGoogleAuthService, GoogleAuthService>();
 
             services.AddHandleDispatchers();
@@ -72,6 +73,11 @@ namespace GDrive
             services.AddAuthorization();            
 
             services.AddControllers();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bijector GDrive API", Version = "v1" });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime lifetime)
@@ -94,6 +100,14 @@ namespace GDrive
             app.UseRabbitMQ().
                 SubscribeCommand<MoveDriveEntity>().
                 SubscribeCommand<RenameDriveEntity>();
+
+            app.UseSwagger();
+            
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bijector GDrive API");
+            });
+
 
             app.UseEndpoints(endpoints =>
             {

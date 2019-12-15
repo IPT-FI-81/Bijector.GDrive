@@ -14,7 +14,7 @@ namespace Bijector.GDrive.Services
             this.tokenRepository = tokenRepository;
         }
 
-        public async Task<bool> IsValid(Guid accountId, Guid servicesId)
+        public async Task<bool> IsValid(int accountId, int servicesId)
         {
             var token = await tokenRepository.GetByIdAsync(servicesId);
             return token.AccountId == accountId;

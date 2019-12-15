@@ -21,7 +21,7 @@ namespace Bijector.GDrive.Handlers.Queries
 
         public async Task<IEnumerable<File>> Handle(GetDirectories query, IContext context)
         {
-            if(await validatorService.IsValid(context.Id, query.ServiceId))
+            if(await validatorService.IsValid(context.UserId, query.ServiceId))
             {
                 var gDriveService = new GoogleDriveService(query.ServiceId, authService);
                 if(string.IsNullOrEmpty(query.Name))

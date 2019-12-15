@@ -48,7 +48,7 @@ namespace Bijector.GDrive.Services
             return authorizationUrl.AbsoluteUri;
         }
 
-        public async Task<GoogleCredential> GetCredentialAsync(Guid serviceId)
+        public async Task<GoogleCredential> GetCredentialAsync(int serviceId)
         {
             var token = await tokenRepository.GetByIdAsync(serviceId);
             if(token != null)
@@ -65,7 +65,7 @@ namespace Bijector.GDrive.Services
             return null;           
         }
 
-        public async Task<GoogleCredential> GetRefreshedCredentialAsync(Guid serviceId)
+        public async Task<GoogleCredential> GetRefreshedCredentialAsync(int serviceId)
         {
             var token = await tokenRepository.GetByIdAsync(serviceId);
             var authFlow = GetAuthorizationCodeFlow();
@@ -77,7 +77,7 @@ namespace Bijector.GDrive.Services
             return GoogleCredential.FromAccessToken(newToken.AccessToken);
         }
 
-        public async Task<Token> StoreTokenFromCode(Guid accountId, string code)
+        public async Task<Token> StoreTokenFromCode(int accountId, string code)
         {
             var redirectUrl = googleOptions.RedirectUrl;
             

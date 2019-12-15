@@ -8,14 +8,14 @@ namespace Bijector.GDrive.Services
 {
     public interface IGoogleAuthService
     {
-        Task<GoogleCredential> GetCredentialAsync(Guid serviceId);
+        Task<GoogleCredential> GetCredentialAsync(int serviceId);
 
-        Task<GoogleCredential> GetRefreshedCredentialAsync(Guid serviceId);
+        Task<GoogleCredential> GetRefreshedCredentialAsync(int serviceId);
 
         AuthorizationCodeFlow GetAuthorizationCodeFlow();
 
         string GetAuthorizationRequestUrl();
 
-        Task<Token> StoreTokenFromCode(Guid accountId, string code);
+        Task<Token> StoreTokenFromCode(int accountId, string code);
     }
 }

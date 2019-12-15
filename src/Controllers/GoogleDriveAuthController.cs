@@ -32,7 +32,7 @@ namespace Bijector.GDrive.Controllers
                 return Unauthorized();
             }
             
-            var accountId = Guid.Parse(User.Identity.Name);
+            var accountId = int.Parse(User.Identity.Name);
             await authService.StoreTokenFromCode(accountId, code);
             
             return Redirect("/GDrive/GetAll");

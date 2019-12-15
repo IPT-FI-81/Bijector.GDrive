@@ -7,11 +7,13 @@ namespace Bijector.GDrive.Messages.Queries
 {
     public class GetDriveEntity : BaseDriveEntityMessage, IQuery<File>
     {
-        public GetDriveEntity(Guid serviceId, string id) : base(serviceId)
+        public GetDriveEntity(){}
+
+        public GetDriveEntity(int serviceId, string id) : base(serviceId)
         {
             Id = id;
         }
 
-        public string Id { get; }
+        public string Id { get; set; }
     }
 }

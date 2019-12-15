@@ -6,8 +6,8 @@ namespace Bijector.GDrive.Models
 {
     public class Token : TokenResponse, IIdentifiable
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
-        public Guid AccountId { get; set; }
+        public int AccountId { get; set; }
     }
 }

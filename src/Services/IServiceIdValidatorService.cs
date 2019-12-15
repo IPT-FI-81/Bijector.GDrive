@@ -5,6 +5,6 @@ namespace Bijector.GDrive.Services
 {
     public interface IServiceIdValidatorService
     {
-        Task<bool> IsValid(Guid accountId, Guid ServicesId);
+        Task<bool> IsValid(int accountId, int ServicesId);
     }
 }

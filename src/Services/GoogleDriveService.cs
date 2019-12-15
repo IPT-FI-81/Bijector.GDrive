@@ -15,23 +15,18 @@ namespace Bijector.GDrive.Services
 
         private readonly IGoogleAuthService authService;
 
-        private readonly Guid serviceId;
+        private readonly int serviceId;
 
-        public GoogleDriveService(Guid serviceId, IGoogleAuthService authService)
-        {                        
-            InitAsync(serviceId);                    
-            this.serviceId = serviceId;
+        public GoogleDriveService(int serviceId, IGoogleAuthService authService)
+        {  
+            this.serviceId = serviceId;    
             this.authService = authService;
-        }
-
-        private async void InitAsync(Guid serviceId)
-        {
-            var credential = await authService.GetCredentialAsync(serviceId);
+            var credential = authService.GetCredentialAsync(serviceId).GetAwaiter().GetResult();
             driveService = new DriveService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential,
                 ApplicationName = "Bijector.GDrive"
-            });
+            });                                       
         }
 
 
@@ -58,7 +53,7 @@ namespace Bijector.GDrive.Services
         public async Task<IEnumerable<File>> GetDirectoryAsync()
         {
             var request = driveService.Files.List();            
-            request.Q = "trashed = false and mimeType = application/vnd.google-apps.folder";
+            request.Q = "trashed = false and mimeType = 'application/vnd.google-apps.folder'";
             return await ExecuteListAsync(request);
         }
 
@@ -71,20 +66,20 @@ namespace Bijector.GDrive.Services
         public async Task<IEnumerable<File>> GetDirectoryAsync(string search)
         {
             var request = driveService.Files.List();            
-            request.Q = $"trashed = false and mimeType = application/vnd.google-apps.folder and name contains {search}";
+            request.Q = $"trashed = false and mimeType = 'application/vnd.google-apps.folder' and name contains '{search}'";
             return await ExecuteListAsync(request);
         }
 
         public async Task<IEnumerable<File>> GetFilesAsync()
         {            
             var request = driveService.Files.List();            
-            request.Q = "trashed = false and mimeType != application/vnd.google-apps.folder";
+            request.Q = "trashed = false and mimeType != 'application/vnd.google-apps.folder'";
             return await ExecuteListAsync(request);
         }        
 
         public async Task<IEnumerable<File>> GetFilesAsync(Func<File, bool> predicate)
         {
-            var allFiles = await GetFileAsync();
+            var allFiles = await GetFilesAsync();
             return allFiles.Where(predicate);
         }
 
@@ -92,7 +87,7 @@ namespace Bijector.GDrive.Services
         {
             var request = driveService.Files.List();
             request.Corpora = "user";
-            request.Q = $"trashed = false and mimeType != application/vnd.google-apps.folder and name contains {search}";
+            request.Q = $"trashed = false and mimeType != 'application/vnd.google-apps.folder' and name contains '{search}'";
             return await ExecuteListAsync(request);
         }
 
@@ -135,7 +130,7 @@ namespace Bijector.GDrive.Services
 
         private async Task<IEnumerable<File>> ExecuteListAsync(FilesResource.ListRequest request)
         {
-            var result = new List<File>();
+            var result = new List<File>();            
             do
             {
                 try
