@@ -34,6 +34,13 @@ namespace Bijector.GDrive.Services
             });
         }
 
+
+        public async Task<File> Get(string id)
+        {
+            var request = driveService.Files.Get(id);
+            return await ExecuteAsync(request);
+        }
+
         public async Task<bool> CreateDirectory(string parentId, string name)
         {
             File directory = new File
@@ -155,6 +162,6 @@ namespace Bijector.GDrive.Services
                 HttpClientInitializer = credential,
                 ApplicationName = "Bijector.GDrive"
             });
-        }      
+        }
     }
 }

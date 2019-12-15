@@ -7,6 +7,8 @@ namespace Bijector.GDrive.Services
 {
     public interface IGoogleDriveServices
     {
+        Task<File> Get(string id);
+
         Task<IEnumerable<File>> GetFileAsync();
 
         Task<IEnumerable<File>> GetDirectoryAsync();
@@ -19,10 +21,10 @@ namespace Bijector.GDrive.Services
 
         Task<IEnumerable<File>> GetDirectoryAsync(string search);
 
-        Task<bool> ReName(string fileId, string newName);
+        Task<bool> ReName(string Id, string newName);
 
-        Task<bool> Move(string fileId, string destinationFolder);
+        Task<bool> Move(string Id, string destinationFolderId, string sourceFolderId);
 
-        Task<bool> CreateDirectory(string parent, string name);
+        Task<bool> CreateDirectory(string parentId, string name);
     }
 }
