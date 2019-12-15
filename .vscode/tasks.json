@@ -1,6 +1,11 @@
 {
     "tasks": [
         {
+            "type": "shell",
+            "label": "dotnet-build",
+            "command" : "dotnet build"            
+        },
+        {
             "type": "docker-build",
             "label": "docker-build: debug",
             "dependsOn": [
