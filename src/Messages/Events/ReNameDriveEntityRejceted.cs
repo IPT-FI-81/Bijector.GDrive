@@ -4,7 +4,7 @@ namespace Bijector.GDrive.Messages.Commands
 {
     public class RenameDriveEntityRejected : IRejectedEvent
     {
-        public string Id { get; set; }
+        public string EntityId { get; set; }
 
         public string NewName { get; set; }
 

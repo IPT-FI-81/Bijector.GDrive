@@ -26,7 +26,7 @@ namespace Bijector.GDrive.Controllers
         [HttpPost("ReName")]
         public async Task<IActionResult> ReName(RenameDriveEntity command)
         {
-            var context = new BaseContext(0, int.Parse(User.Identity.Name), null, "Bijector GDrive");
+            var context = new BaseContext(-1, int.Parse(User.Identity.Name), null, "Bijector GDrive");
             await commandDispatcher.SendAsync(command, context);
             return Accepted();
         }
@@ -35,7 +35,7 @@ namespace Bijector.GDrive.Controllers
         [HttpPost("Move")]
         public async Task<IActionResult> ReName(MoveDriveEntity command)
         {
-            var context = new BaseContext(0, int.Parse(User.Identity.Name), null, "Bijector GDrive");
+            var context = new BaseContext(-1, int.Parse(User.Identity.Name), null, "Bijector GDrive");
             await commandDispatcher.SendAsync(command, context);
             return Accepted();
         }
@@ -44,7 +44,7 @@ namespace Bijector.GDrive.Controllers
         [HttpGet("Files")]
         public async Task<IActionResult> GetFiles(GetFiles query)
         {
-            var context = new BaseContext(0, int.Parse(User.Identity.Name), null, "Bijector GDrive");
+            var context = new BaseContext(-1, int.Parse(User.Identity.Name), null, "Bijector GDrive");
             return new JsonResult(await queryDispatcher.QueryAsync(query, context));
         }
 
@@ -52,7 +52,7 @@ namespace Bijector.GDrive.Controllers
         [HttpGet("Directories")]
         public async Task<IActionResult> GetDirectories(GetDirectories query)
         {
-            var context = new BaseContext(0, int.Parse(User.Identity.Name), null, "Bijector GDrive");
+            var context = new BaseContext(-1, int.Parse(User.Identity.Name), null, "Bijector GDrive");
             return new JsonResult(await queryDispatcher.QueryAsync(query, context));
         }
 
@@ -60,7 +60,7 @@ namespace Bijector.GDrive.Controllers
         [HttpGet("Entity")]
         public async Task<IActionResult> GetDriveEntity(GetDriveEntity query)
         {
-            var context = new BaseContext(0, int.Parse(User.Identity.Name), null, "Bijector GDrive");
+            var context = new BaseContext(-1, int.Parse(User.Identity.Name), null, "Bijector GDrive");
             return new JsonResult(await queryDispatcher.QueryAsync(query, context));
         }
     }

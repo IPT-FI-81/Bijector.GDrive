@@ -27,12 +27,12 @@ namespace Bijector.GDrive.Handlers.Commands
             if(await validatorService.IsValid(context.UserId, command.ServiceId))
             {
                 var gDriveService = new GoogleDriveService(command.ServiceId, authService);
-                await gDriveService.ReName(command.Id, command.NewName);
+                await gDriveService.ReName(command.EntityId, command.NewName);
 
                 var succEvent = new DriveEntityRenamed
                 {
                     NewName = command.NewName,
-                    Id = command.Id
+                    EntityId = command.EntityId
                 };
                 var succContext = new BaseContext(context.Id, context.UserId, "Bijector GDrive", "Bijector Workflows");
                 await publisher.Publish(succEvent, succContext);
@@ -41,7 +41,7 @@ namespace Bijector.GDrive.Handlers.Commands
             {
                 var badEvent = new RenameDriveEntityRejected
                 {
-                    Id = command.Id,
+                    EntityId = command.EntityId,
                     NewName = command.NewName,
                     Reason = "User does not linked with service"
                 };
