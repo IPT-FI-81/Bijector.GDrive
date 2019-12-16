@@ -2,8 +2,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Bijector.GDrive.Configs;
+using Bijector.GDrive.Messages.Events;
 using Bijector.GDrive.Models;
+using Bijector.Infrastructure.Queues;
 using Bijector.Infrastructure.Repositories;
+using Bijector.Infrastructure.Types;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Auth.OAuth2.Flows;
 using Google.Apis.Auth.OAuth2.Responses;
@@ -16,11 +19,14 @@ namespace Bijector.GDrive.Services
     {
         private readonly IRepository<Token> tokenRepository;
 
+        private readonly IPublisher publisher;
+
         private readonly GoogleConfigs googleOptions;        
 
-        public GoogleAuthService(IRepository<Token> tokenRepository, IOptions<GoogleConfigs> googleOptions)
+        public GoogleAuthService(IRepository<Token> tokenRepository, IOptions<GoogleConfigs> googleOptions, IPublisher publisher)
         {
             this.tokenRepository = tokenRepository;
+            this.publisher = publisher;
             this.googleOptions = googleOptions.Value;            
         }
 
@@ -90,7 +96,19 @@ namespace Bijector.GDrive.Services
                 var newToken = GetTokenFromResponseMethod(gtoken);
                 newToken.AccountId = accountId;
                 await tokenRepository.AddAsync(newToken);
-                return await tokenRepository.FindAsync(t => t.AccessToken == gtoken.AccessToken && t.AccountId == accountId);
+                var token = await tokenRepository.FindAsync(t => t.AccessToken == gtoken.AccessToken && t.AccountId == accountId);                    
+
+                var context = new BaseContext(-1, accountId, "Bijector GDrive", "Bijector Accounts");
+                var @event = new AddService
+                {
+                    UserServiceId = token.Id,
+                    ServiceName = "Google Drive",
+                    UserServiceName = "Google Drive",
+                    ServiceType = "Drive"
+                };
+                await publisher.Publish(@event, context);
+
+                return token;
             }
             return null;
         }
