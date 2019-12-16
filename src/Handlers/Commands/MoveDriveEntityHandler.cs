@@ -25,11 +25,14 @@ namespace Bijector.GDrive.Handlers.Commands
 
         public async Task Handle(MoveDriveEntity command, IContext context)
         {
+            bool isOk = false;
             if(await validatorService.IsValid(context.UserId, command.ServiceId))
             {
                 var gDriveService = new GoogleDriveService(command.ServiceId, authService);
-                await gDriveService.Move(command.EntityId, command.DestinationId, command.SourceId);
-                                
+                isOk = await gDriveService.Move(command.EntityId, command.DestinationId, command.SourceId);                                            
+            }
+            if(isOk)
+            {
                 var succEvent = new DriveEntityMoved
                 { 
                     EnitityId = command.EntityId,

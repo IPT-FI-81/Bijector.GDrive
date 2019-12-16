@@ -24,11 +24,15 @@ namespace Bijector.GDrive.Handlers.Commands
 
         public async Task Handle(RenameDriveEntity command, IContext context)
         {
+            bool isOk = false;
             if(await validatorService.IsValid(context.UserId, command.ServiceId))
             {
                 var gDriveService = new GoogleDriveService(command.ServiceId, authService);
-                await gDriveService.ReName(command.EntityId, command.NewName);
-
+                isOk = await gDriveService.ReName(command.EntityId, command.NewName);                
+            }
+            
+            if(isOk)
+            {
                 var succEvent = new DriveEntityRenamed
                 {
                     NewName = command.NewName,
