@@ -55,6 +55,7 @@ namespace GDrive
             services.AddTransient<IQueryHandler<GetDirectories, DriveEntityList>, GetDirectoriesHandler>();
             services.AddTransient<IQueryHandler<GetFiles, DriveEntityList>, GetFilesHandler>();
             services.AddTransient<IQueryHandler<GetDriveEntity, DriveEntity>, GetDriveEntityHandler>();
+            services.AddTransient<ICommandHandler<CreateDirectory>, CreateDirectoryHandler>();
 
             services.Configure<GoogleConfigs>(Configuration.GetSection("GoogleOptions"));            
 

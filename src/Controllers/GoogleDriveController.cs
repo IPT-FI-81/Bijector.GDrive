@@ -23,6 +23,15 @@ namespace Bijector.GDrive.Controllers
         }
 
         [Authorize]
+        [HttpPost("CreateDir")]
+        public async Task<IActionResult> CreateDirectory(CreateDirectory command)
+        {
+            var context = new BaseContext(-1, int.Parse(User.Identity.Name), null, "Bijector GDrive");
+            await commandDispatcher.SendAsync(command, context);
+            return Accepted();
+        }
+
+        [Authorize]
         [HttpPost("ReName")]
         public async Task<IActionResult> ReName(RenameDriveEntity command)
         {
