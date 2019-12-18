@@ -29,14 +29,13 @@ namespace Bijector.GDrive.Handlers.Commands
             if(await validatorService.IsValid(context.UserId, command.ServiceId))
             {
                 var gDriveService = new GoogleDriveService(command.ServiceId, authService);
-                isOk = await gDriveService.Move(command.EntityId, command.DestinationId, command.SourceId);                                            
+                isOk = await gDriveService.Move(command.EntityId, command.DestinationId);                                            
             }
             if(isOk)
             {
                 var succEvent = new DriveEntityMoved
                 { 
                     EnitityId = command.EntityId,
-                    SourceId = command.SourceId, 
                     DestionationId = command.DestinationId 
                 };
                 var succContext = new BaseContext(context.Id, context.UserId, "Bijector GDrive", "Bijector Workflows");
@@ -46,8 +45,7 @@ namespace Bijector.GDrive.Handlers.Commands
             {
                 var badEvent = new MoveDriveEntityRejected
                 { 
-                    EnitityId = command.EntityId,
-                    SourceId = command.SourceId, 
+                    EnitityId = command.EntityId,                    
                     DestionationId = command.DestinationId,
                     Reason = "Service does not linked with user"
                 };

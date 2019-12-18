@@ -91,11 +91,17 @@ namespace Bijector.GDrive.Services
             return await ExecuteListAsync(request);
         }
 
-        public async Task<bool> Move(string id, string destinationFolderId, string sourceFolderId)
+        public async Task<bool> Move(string id, string destinationFolderId)
         {            
+            var fileRequest = driveService.Files.Get(id);
+            fileRequest.Fields = "parents";
+            var file = await ExecuteAsync(fileRequest);
+            if(file == null)
+                return false;
+            
             var request = driveService.Files.Update(new File(), id);
             request.AddParents = destinationFolderId;
-            request.RemoveParents = sourceFolderId;            
+            request.RemoveParents = file.Parents[0];            
             if(await ExecuteAsync(request) != null)
                 return true;
             return false;

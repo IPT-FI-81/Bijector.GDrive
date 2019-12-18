@@ -6,15 +6,13 @@ namespace Bijector.GDrive.Messages.Commands
     {
         public MoveDriveEntity(){}
 
-        public MoveDriveEntity(int serviceId, string entityId, string destinationId, string sourceId) : base(serviceId)
+        public MoveDriveEntity(int serviceId, string entityId, string destinationId) : base(serviceId)
         {            
             EntityId = entityId;
-            DestinationId = destinationId;
-            SourceId = sourceId;
+            DestinationId = destinationId;            
         }
         
         public string EntityId { get; set; }
-        public string DestinationId { get; set; }
-        public string SourceId { get; }
+        public string DestinationId { get; set; }        
     }
 }

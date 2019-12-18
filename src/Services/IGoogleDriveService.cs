@@ -23,7 +23,7 @@ namespace Bijector.GDrive.Services
 
         Task<bool> ReName(string Id, string newName);
 
-        Task<bool> Move(string Id, string destinationFolderId, string sourceFolderId);
+        Task<bool> Move(string Id, string destinationFolderId);
 
         Task<bool> CreateDirectory(string parentId, string name);
     }
